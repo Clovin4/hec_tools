@@ -75,11 +75,24 @@ class HMS:
             raise FileNotFoundError(f"Could not find the .bat file at {bat_loc}")
         return bat_loc
     
-    def get_hms_loc(self):
-        return self.loc
-
-    def count_files(self, ext):
-        """Count the number of files with the specified extension."""
+    def get_basins(self):
+        '''Read .basin files and return a list of basins.'''
         loc = self.loc
-        files = [f for f in os.listdir(loc) if f.endswith(ext)]
-        return len(files)
+        # return file path to the .basin file loc+"\\*.basin"
+        basin_file = [os.path.join(loc, f) for f in os.listdir(loc) if f.endswith(".basin")][0]
+
+        # read the .basin file and return the contents
+        with open(basin_file, "r") as f:
+            basin_file = f.read()
+
+        basin_file = basin_file.split("\n")
+
+        basins = [r.split(":")[-1].strip() for r in basin_file if r.startswith("Subbasin")]
+
+        return basins
+    
+    def get_results():
+        dss_files = [os.path.join(loc, f) for f in os.listdir(loc) if f.endswith(".dss")]
+        # for dss_file in dss_files:
+        pass
+            
